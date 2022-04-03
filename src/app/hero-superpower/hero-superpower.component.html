@@ -1,0 +1,10 @@
+<div *ngIf="hero">
+  <h3>Superpowers</h3>
+  <label for="hero-new-superpower">New Superpower: </label>
+  <button type="button" (click)="newSuperpower()">new superpower</button>
+
+  <div *ngFor="let superpower of hero.superpowers;let index=index; trackBy:identify;">
+    <input id="hero-superpower" [(ngModel)]="hero.superpowers![index]" name="superpoder{{index}}" placeholder="superpower">
+    <button type="button" (click)="rmSuperpower(superpower)">remove</button>
+  </div>
+</div>
