@@ -12,6 +12,7 @@ import { HeroService } from '../hero.service';
 })
 export class HeroDetailComponent implements OnInit {
   @Input() hero?: Hero;
+  image?: String;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,13 +21,24 @@ export class HeroDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getHero();
+    this.getHero()
   }
 
   getHero(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.heroService.getHero(id)
-      .subscribe(hero => this.hero = hero);
+      .subscribe(hero => {
+        this.hero = hero;
+        this.getImage();
+      });
+  }
+
+  getImage(): void {
+    this.heroService.getImage(this.hero!)
+      .subscribe( (json:any) => {
+        let urlImage = json.data.results[0].thumbnail.path+"."+json.data.results[0].thumbnail.extension;
+        this.image = urlImage.replace('http','https');
+      });
   }
 
   goBack(): void {
